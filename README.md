@@ -10,7 +10,7 @@ This repository provides playbooks for managing Cisco NX-OS devices
 
 ## Getting Started
 
-The playbooks are tested using Ansible and AWX with 
+The playbooks are tested using Ansible and AWX
 
 ## Playbooks
 
@@ -27,20 +27,16 @@ The playbooks are tested using Ansible and AWX with
         - { vid: 3, name: application }
 ```
 
-### Run Show Version
+### Configure Portchannels
 ```yaml
-
-  - name: Test reachability to Ansible host
-    ios_ping:
-      dest: 10.0.0.1
-
-  - name: Run show version
-    ios_command:
-      commands:
-        - show version
-    register: version
-   
-- debug: var=version.stdout_lines
+tasks:
+    - name: Create portchannel 200
+      nxos_portchannel:
+        group: 200
+        members: ['Ethernet1/1','Ethernet1/2']
+        mode: 'active'
+        host: "{{ inventory_hostname }}"
+        state: present
 ```
 
 ## Related
