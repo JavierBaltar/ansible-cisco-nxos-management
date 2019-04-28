@@ -14,18 +14,17 @@ The playbooks are tested using Ansible and AWX with
 
 ## Playbooks
 
-### Change MGCP Agent
+### Create VLANs
 ```yaml
-tasks:
-     - ios_config:
-          provider: "{{login_info}}" 
-          lines:
-            - mgcp call-agent 10.0.0.10
-          before: "no mgcp call-agent 10.0.0.9"  
-       
-     - ios_config:
-          save: yes
-          provider: "{{login_info}}"
+  tasks:
+    - name: Ensure VLAN 2 and 3 exist
+      nxos_vlan: vlan_id="2,3" state=present host={{ inventory_hostname }}
+
+    - name: Configure VLAN names
+      nxos_vlan: vlan_id={{ item.vid }} name={{ item.name }} host={{ inventory_hostname }} state=present
+      with_items:
+        - { vid: 2, name: database }
+        - { vid: 3, name: application }
 ```
 
 ### Run Show Version
