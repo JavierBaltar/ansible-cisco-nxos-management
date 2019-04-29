@@ -39,6 +39,17 @@ tasks:
         state: present
 ```
 
+### Feature Enablement
+```yaml
+tasks:
+    - name: Ensure DHCP is enabled
+      nxos_feature:
+        feature: dhcp
+        state: enabled
+        host: "{{ inventory_hostname }}"
+        
+```
+
 ## Related
 
 * [Ansible](https://www.ansible.com) - Configuration Management
